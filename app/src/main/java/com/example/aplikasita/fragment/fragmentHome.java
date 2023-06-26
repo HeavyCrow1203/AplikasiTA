@@ -148,10 +148,6 @@ public class fragmentHome extends Fragment {
                     gTemp.setProgress(suhu);
                     gTemp.setMax(10000);
                     vTemp.setText(bacasuhu+" °C");
-                    /**ObjectAnimator animator = ObjectAnimator.ofInt(gTemp, "progress", 0, suhu);
-                     animator.setDuration(2000);
-                     animator.setInterpolator(animator.getInterpolator());
-                     animator.start();**/
 
                     String kelembaban_tanah = snapshot1.child("Kelembaban_Tanah").getValue().toString();
                     float nilai_tanah = Float.parseFloat(kelembaban_tanah)*100;
@@ -159,10 +155,6 @@ public class fragmentHome extends Fragment {
                     gSoil.setProgress(progress);
                     gSoil.setMax(10000);
                     vSoil.setText(kelembaban_tanah+" %");
-                    /**ObjectAnimator animator2 = ObjectAnimator.ofInt(gSoil, "progress", 0, progress);
-                     animator2.setDuration(2000);
-                     animator2.setInterpolator(animator.getInterpolator());
-                     animator2.start();**/
 
                     String durasi = snapshot1.child("Lama_Siram").getValue().toString();
                     String keterangan = snapshot1.child("keterangan").getValue().toString();
