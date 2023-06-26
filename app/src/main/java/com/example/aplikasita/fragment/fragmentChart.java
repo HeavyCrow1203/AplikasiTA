@@ -130,11 +130,17 @@ public class fragmentChart extends Fragment {
                         label.add(timestamp);
                     }
                     lineDataSet1.setValues(entries1);
-                    display_chart_suhu();
+                    display_Chart(line_chart_suhu, lineDataSet1, iLineDataSets1, "Suhu (°C)",
+                            new Marker_Chart_Suhu(getActivity().getApplicationContext(),
+                                    R.layout.marker_chart_suhu, label), Color.BLUE);
                     lineDataSet2.setValues(entries2);
-                    display_chart_kelembaban();
+                    display_Chart(line_chart_kelembaban, lineDataSet2, iLineDataSets2, "Kelembaban Tanah (%)",
+                            new Marker_Chart_Kelembaban(getActivity().getApplicationContext(),
+                                    R.layout.marker_chart_kelembaban, label), Color.GREEN);
                     lineDataSet3.setValues(entries3);
-                    display_chart_durasi();
+                    display_Chart(line_chart_siram, lineDataSet3, iLineDataSets3, "Lama Siram (detik)",
+                            new Marker_Chart_Lama_Siram(getActivity().getApplicationContext(),
+                                    R.layout.custom_mark_chart, label), Color.RED);
                 } else {
                     AlertDialog dialog = new AlertDialog.Builder(getContext())
                             .setTitle("Data pada grafik tidak ditemukan")
@@ -150,8 +156,7 @@ public class fragmentChart extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "Gagal Memuat Data",
-                        Toast.LENGTH_SHORT).show();
+                pesanToast("Gagal Memuat Data");
             }
         });
     }
@@ -184,91 +189,53 @@ public class fragmentChart extends Fragment {
                         label.add(timestamp);
                     }
                     lineDataSet1.setValues(entries1);
-                    display_chart_suhu();
+                    display_Chart(line_chart_suhu, lineDataSet1, iLineDataSets1, "Suhu (°C)",
+                            new Marker_Chart_Suhu(getActivity().getApplicationContext(),
+                                    R.layout.marker_chart_suhu, label), Color.BLUE);
                     lineDataSet2.setValues(entries2);
-                    display_chart_kelembaban();
+                    display_Chart(line_chart_kelembaban, lineDataSet2, iLineDataSets2, "Kelembaban Tanah (%)",
+                            new Marker_Chart_Kelembaban(getActivity().getApplicationContext(),
+                                    R.layout.marker_chart_kelembaban, label), Color.GREEN);
                     lineDataSet3.setValues(entries3);
-                    display_chart_durasi();
+                    display_Chart(line_chart_siram, lineDataSet3, iLineDataSets3, "Lama Siram (detik)",
+                            new Marker_Chart_Lama_Siram(getActivity().getApplicationContext(),
+                                    R.layout.custom_mark_chart, label), Color.RED);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "Gagal Memuat Data",
-                        Toast.LENGTH_SHORT).show();
+                pesanToast("Gagal Memuat Data");
             }
         });
     }
 
-    private void display_chart_suhu() {
-        lineDataSet1.setLabel("Suhu (°C)");
-        lineDataSet1.setColor(Color.BLUE);
-        lineDataSet1.setCircleRadius(2f);
-        lineDataSet1.setCircleColor(Color.BLUE);
-        iLineDataSets1.clear();
-        iLineDataSets1.add(lineDataSet1);
-        lineData = new LineData(iLineDataSets1);
-        line_chart_suhu.clear();
-        line_chart_suhu.setData(lineData);
-        line_chart_suhu.invalidate();
-        line_chart_suhu.setDoubleTapToZoomEnabled(true);
-        line_chart_suhu.getXAxis().setValueFormatter(new IndexAxisValueFormatter(label));
-        line_chart_suhu.animateX(2000);
-        lineDataSet1.setLineWidth(2);
-        line_chart_suhu.setScaleEnabled(true);
-        line_chart_suhu.getLegend().setDrawInside(false);
-        line_chart_suhu.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        line_chart_suhu.getDescription().setEnabled(false);
-        line_chart_suhu.setMarker(new Marker_Chart_Suhu(getActivity().getApplicationContext(),
-                R.layout.marker_chart_suhu, label));
+    private void display_Chart(LineChart lineChart, LineDataSet lineDataSet, ArrayList<ILineDataSet> iLineDataSets,
+                               String keterangan, IMarker iMarker, int warna) {
+        lineDataSet.setLabel(keterangan);
+        lineDataSet.setColor(warna);
+        lineDataSet.setCircleRadius(2f);
+        lineDataSet.setCircleColor(warna);
+        iLineDataSets.clear();
+        iLineDataSets.add(lineDataSet);
+        lineData = new LineData(iLineDataSets);
+        lineChart.clear();
+        lineChart.setData(lineData);
+        lineChart.invalidate();
+        lineChart.setDoubleTapToZoomEnabled(true);
+        lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(label));
+        lineChart.animateX(2000);
+        lineDataSet.setLineWidth(2);
+        lineChart.setScaleEnabled(true);
+        lineChart.getLegend().setDrawInside(false);
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setMarker(iMarker);
     }
 
-    private void display_chart_kelembaban() {
-        line_chart_kelembaban.setMarker(new Marker_Chart_Kelembaban(getActivity().getApplicationContext(),
-                R.layout.marker_chart_kelembaban, label));
-        lineDataSet2.setLabel("Kelembaban Tanah (%)");
-        lineDataSet2.setColor(Color.GREEN);
-        lineDataSet2.setCircleRadius(2f);
-        lineDataSet2.setCircleColor(Color.GREEN);
-        iLineDataSets2.clear();
-        iLineDataSets2.add(lineDataSet2);
-        lineData = new LineData(iLineDataSets2);
-        line_chart_kelembaban.clear();
-        line_chart_kelembaban.setData(lineData);
-        line_chart_kelembaban.invalidate();
-        line_chart_kelembaban.setDoubleTapToZoomEnabled(true);
-        line_chart_kelembaban.getXAxis().setValueFormatter(new IndexAxisValueFormatter(label));
-        line_chart_kelembaban.animateX(2000);
-        lineDataSet2.setLineWidth(2);
-        line_chart_kelembaban.setScaleEnabled(true);
-        line_chart_kelembaban.getLegend().setDrawInside(false);
-        line_chart_kelembaban.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        line_chart_kelembaban.getDescription().setEnabled(false);
+    private void pesanToast(String message) {
+        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
-    private void display_chart_durasi() {
-        lineDataSet3.setLabel("Lama Siram (detik)");
-        lineDataSet3.setColor(Color.RED);
-        lineDataSet3.setCircleRadius(2f);
-        lineDataSet3.setCircleColor(Color.RED);
-        iLineDataSets3.clear();
-        iLineDataSets3.add(lineDataSet3);
-        lineData = new LineData(iLineDataSets3);
-        line_chart_siram.clear();
-        line_chart_siram.setData(lineData);
-        line_chart_siram.invalidate();
-        line_chart_siram.setDoubleTapToZoomEnabled(true);
-        line_chart_siram.getXAxis().setValueFormatter(new IndexAxisValueFormatter(label));
-        line_chart_siram.animateX(2000);
-        lineDataSet2.setLineWidth(2);
-        line_chart_siram.setScaleEnabled(true);
-        line_chart_siram.getLegend().setDrawInside(false);
-        line_chart_siram.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        line_chart_siram.getDescription().setEnabled(false);
-        line_chart_siram.setMarker(new Marker_Chart_Lama_Siram(getActivity().getApplicationContext(),
-                R.layout.custom_mark_chart, label));
-    }
-
 
     private void showDateDialog() {
         Calendar newCalendar = Calendar.getInstance();
